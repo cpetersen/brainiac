@@ -26,3 +26,8 @@ You should now have TensorFlow installed with GPU support.
 ### Terminate an instance
 
 Termination is still manual. Log into your [AWS console](http://console.aws.amazon.com), terminate the instance, then remove it from your `inventory` file.
+
+
+# Acknowledgements
+
+Thank you to John Ramey and his post [Installing TensorFlow on an AWS EC2 Instance with GPU Support](http://ramhiser.com/2016/01/05/installing-tensorflow-on-an-aws-ec2-instance-with-gpu-support/). This project largely coverts that post into Ansible plays.
