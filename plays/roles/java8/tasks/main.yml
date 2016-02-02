@@ -1,0 +1,21 @@
+---
+
+- name: Install dependecies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-software-properties
+  sudo: yes
+
+- name: Install the Java Repository
+  apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes
+  sudo: yes
+
+- name: Auto accept oracle jdk license
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  sudo: yes
+
+- name: Install Java8
+  apt: pkg={{ item }} state=present
+  with_items:
+    - oracle-java8-installer
+  sudo: yes

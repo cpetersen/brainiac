@@ -1,0 +1,8 @@
+---
+- name: Brainiac
+  hosts: brainiac
+  roles:
+    - role: cuda
+    - role: java8
+    - role: bazel
+    - role: tensorflow

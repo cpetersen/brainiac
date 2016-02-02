@@ -1,0 +1,4 @@
+---
+
+- name: Clone tensorflow
+  git: repo=https://github.com/tensorflow/tensorflow dest=/home/ubuntu/tensorflow recursive=yes
