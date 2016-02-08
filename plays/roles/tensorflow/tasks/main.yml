@@ -1,4 +1,34 @@
 ---
 
 - name: Clone tensorflow
-  git: repo=https://github.com/tensorflow/tensorflow dest=/home/ubuntu/tensorflow recursive=yes
+  git: repo=https://github.com/tensorflow/tensorflow dest=/mnt/brainiac/tensorflow recursive=yes update=no
+
+- name: Configure Tensorflow
+  command: ./configure
+  args:
+    chdir: /mnt/brainiac/tensorflow
+  environment:
+    TF_UNOFFICIAL_SETTING: 1
+    PYTHON_BIN_PATH: /usr/bin/python
+    TF_NEED_CUDA: 1
+    TF_CUDA_VERSION: 7.0
+    CUDA_TOOLKIT_PATH: /usr/local/cuda
+    TF_CUDNN_VERSION: 6.5
+    CUDNN_INSTALL_PATH: /usr/local/cuda
+    TF_CUDA_COMPUTE_CAPABILITIES: 3.0
+
+- command: /mnt/brainiac/bin/bazel build -c opt --config=cuda //tensorflow/cc:tutorials_example_trainer
+  args:
+    chdir: /mnt/brainiac/tensorflow
+
+- command: /mnt/brainiac/bin/bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+  args:
+    chdir: /mnt/brainiac/tensorflow
+
+# - command: bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+#   args:
+#     chdir: /home/ubuntu/tensorflow
+#
+# - command: sudo pip install --upgrade /tmp/tensorflow_pkg/tensorflow-0.6.0-cp27-none-linux_x86_64.whl
+#   args:
+#     chdir: /home/ubuntu/tensorflow

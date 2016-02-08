@@ -10,9 +10,9 @@
   sudo: yes
 
 - name: Download the Bazel Installer
-  get_url: url=https://github.com/bazelbuild/bazel/releases/download/0.1.4/bazel-0.1.4-installer-linux-x86_64.sh dest=/home/ubuntu mode=0755
+  get_url: url=https://github.com/bazelbuild/bazel/releases/download/0.1.4/bazel-0.1.4-installer-linux-x86_64.sh dest=/mnt/brainiac mode=0755
 
 - name: Install Bazel
-  shell: "/home/ubuntu/bazel-0.1.4-installer-linux-x86_64.sh --user && touch /home/ubuntu/.ansible-bazel-installed"
+  shell: "/mnt/brainiac/bazel-0.1.4-installer-linux-x86_64.sh --bin=/mnt/brainiac/bin --base=/mnt/brainiac/.bazel --bazelrc=/mnt/brainiac/.bazelrc && touch /home/ubuntu/.ansible-bazel-installed"
   args:
     creates: /home/ubuntu/.ansible-bazel-installed

@@ -4,16 +4,6 @@
     connection: local
     gather_facts: False
     tags: provisioning
-    # Necessary Variables for creating/provisioning the EC2 Instance
-    vars:
-      instance_type: g2.2xlarge
-      security_group: brainiac # Change the security group name here
-      image: ami-34126654
-      region: us-west-1 # Change the Region
-      zone: us-west-1b
-      keypair: sandbox # Change the keypair name
-      count: 1
-
     # Task that will be used to Launch/Create an EC2 Instance
     tasks:
       - name: Create a security group
@@ -49,7 +39,7 @@
         local_action: lineinfile
                       dest="../inventory"
                       regexp={{ item.public_ip }}
-                      insertafter="[brainiac]" line={{ item.public_ip }}
+                      insertafter="[brainiac]" line="{{ item.public_ip }} inventory_host={{ item.public_ip }} instance_id={{ item.id }}"
         with_items: ec2.instances
 
       - name: Wait for SSH to come up
