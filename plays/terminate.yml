@@ -1,0 +1,19 @@
+---
+- name: Terminate
+  hosts: brainiac
+  tasks:
+    - name: Terminate instances
+      local_action:
+        module: ec2
+        state: 'absent'
+        region: "{{ region }}"
+        instance_ids:
+          - "{{ instance_id }}"
+
+    - name: Remove the instances from the inventory
+      local_action: lineinfile
+                    dest="../inventory"
+                    state="absent"
+                    regexp={{ instance_id }}
+      with_items:
+        - "{{ instance_id }}"
