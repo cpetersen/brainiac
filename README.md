@@ -1,4 +1,4 @@
-# Brainiac
+# Brainiac - UNDER DEVELOPMENT, NOT QUITE WORKING YET
 
 [Ansible](http://www.ansible.com) configuration for [GPU optimized](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using_cluster_computing.html) Deep Learning with [TensorFlow](https://www.tensorflow.org) on [EC2](http://aws.amazon.com/ec2).
 
@@ -15,10 +15,38 @@
 
 ### Provision an instance
 
-*Note:* A note about cuDNN. As stated above, you will need to download the file `cudnn-6.5-linux-x64-v2.tgz` from [Nvidia's site](https://developer.nvidia.com/rdp/assets/cudnn-65-linux-v2-asset). Place it in the `files` directory before proceeding.
+*Note:* A note about cuDNN. As stated above, you will need to download the file `cudnn-6.5-linux-x64-v2.tgz` from [Nvidia's site](https://developer.nvidia.com/rdp/assets/cudnn-65-linux-v2-asset). Place it in the `plays/roles/cuda/files` directory before proceeding.
+
+This will take a while, approximately 40 minutes on my setup.
 
 ```sh
- > ansible-playbook -i inventory plays/provision.yml
+> time ansible-playbook -i inventory plays/provision.yml
+ PLAY [Brainiac] ***************************************************************
+
+ GATHERING FACTS ***************************************************************
+ ok: [54.151.16.56]
+
+ TASK: [cuda | Update and Upgrade] *********************************************
+ changed: [54.151.16.56]
+
+ TASK: [cuda | Install development dependencies] *******************************
+ changed: [54.151.16.56] => (item=build-essential,g++,gfortran,git,libatlas-base-dev,libblas-dev,libfreetype6-dev,liblapack-dev,libncurses-dev,libopenblas-dev,libxft-dev,linux-headers-generic,linux-image-extra-virtual,pkg-config,python-dev,python-matplotlib,python-numpy,python-pandas,python-pip,python-pydot,python-sklearn,swig,unzip,unzip,wget,zip,zlib1g-dev)
+
+...
+
+ TASK: [tensorflow | Configure Tensorflow] *************************************
+ changed: [54.151.16.56]
+
+ TASK: [tensorflow | command /mnt/brainiac/bin/bazel build -c opt --config=cuda //tensorflow/cc:tutorials_example_trainer] ***
+ changed: [54.151.16.56]
+
+ TASK: [tensorflow | command /mnt/brainiac/bin/bazel build -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package] ***
+ changed: [54.151.16.56]
+
+ PLAY RECAP ********************************************************************
+ 54.151.16.56               : ok=28   changed=24   unreachable=0    failed=0
+
+ ansible-playbook -i inventory plays/provision.yml  1.75s user 1.38s system 0% cpu 38:36.03 total
 ```
 
 You should now have TensorFlow installed with GPU support.
