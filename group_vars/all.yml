@@ -6,7 +6,8 @@ ansible_ssh_private_key_file: ~/.ssh/sandbox
 instance_type: g2.2xlarge
 security_group: brainiac # Change the security group name here
 # image: ami-34126654 # hvm
-image: ami-06116566 # hvm-ssd
+# image: ami-06116566 # hvm-ssd
+image: ami-8a2056ea # hvm-instance
 region: us-west-1 # Change the Region
 keypair: sandbox # Change the keypair name
 count: 1
